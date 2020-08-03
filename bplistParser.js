@@ -4,8 +4,8 @@
 
 // adapted from https://github.com/3breadt/dd-plist
 
-const fs = require('fs');
 const bigInt = require('big-integer');
+if (typeof Buffer === "undefined") const Buffer = require('buffer');
 const debug = false;
 
 exports.maxObjectSize = 100 * 1000 * 1000; // 100Meg
@@ -19,35 +19,6 @@ const EPOCH = 978307200000;
 // UID object definition
 const UID = exports.UID = function(id) {
   this.UID = id;
-};
-
-exports.parseFile = function (fileNameOrBuffer, callback) {
-  return new Promise(function (resolve, reject) {
-    function tryParseBuffer(buffer) {
-      let err = null;
-      let result;
-      try {
-        result = parseBuffer(buffer);
-        resolve(result);
-      } catch (ex) {
-        err = ex;
-        reject(err);
-      } finally {
-        if (callback) callback(err, result);
-      }
-    }
-
-    if (Buffer.isBuffer(fileNameOrBuffer)) {
-      return tryParseBuffer(fileNameOrBuffer);
-    }
-    fs.readFile(fileNameOrBuffer, function (err, data) {
-      if (err) {
-        reject(err);
-        return callback(err);
-      }
-      tryParseBuffer(data);
-    });
-  });
 };
 
 const parseBuffer = exports.parseBuffer = function (buffer) {
