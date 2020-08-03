@@ -5,7 +5,6 @@
 // adapted from https://github.com/3breadt/dd-plist
 
 const bigInt = require('big-integer');
-if (typeof Buffer === "undefined") const Buffer = require('buffer');
 const debug = false;
 
 exports.maxObjectSize = 100 * 1000 * 1000; // 100Meg
